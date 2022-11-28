@@ -8,30 +8,31 @@
 import Foundation
 
 protocol WebserviceProtocol {
-    func updateProducts(_ Webservice: WebService, )
+    func fetch<T: Codable>(response: T.Type, with path: AktuelAPICall, completion: @escaping (Result <T, Error>) -> Void)
 }
-final class WebService: WebServiceProtocol {
-    func fetch<T: Codable>(response: T.Type, with path: NewsAPICall, completion: @escaping (Result<T, Error>) -> Void) {
+final class WebService: WebserviceProtocol {
+    func fetch<T>(response: T.Type, with path: AktuelAPICall, completion: @escaping (Result<T, Error>) -> Void) where T : Decodable, T : Encodable {
         let urlRequest = URLRequest(url: path.url)
-        let task = URLSession.shared.dataTask(with: urlRequest) {data, _, error in
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
             guard let data = data else {
                 completion(.failure(NetworkError.dataNotFound))
                 return
             }
-
             let decoder = JSONDecoder()
-            do {
+            do{
                 let response = try decoder.decode(T.self, from: data)
                 completion(.success(response))
-            } catch {
+            }catch{
                 completion(.failure(error))
             }
         }
         task.resume()
     }
+}
+enum NetworkError: Error{
+    case dataNotFound
 }
