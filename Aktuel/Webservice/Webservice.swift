@@ -3,7 +3,6 @@
 //  Aktuel
 //
 //  Created by Turan Çabuk on 28.11.2022.
-//
 
 import Foundation
 
@@ -31,6 +30,23 @@ final class WebService: WebserviceProtocol {
             }
         }
         task.resume()
+    }
+}
+protocol WebserviceAdapterProtocol {
+    func getProducts(completion: @escaping (Result<Aktuel, Error>) -> Void)
+}
+final class WebserviceAdapter: WebserviceAdapterProtocol {
+   
+    private let webservice: WebserviceProtocol
+    
+    init(webservice: WebserviceProtocol) {
+        self.webservice = webservice
+    }
+
+    func getProducts(completion: @escaping (Result<Aktuel, Error>) -> Void) {
+        func getProduct(completion: @escaping (Result <Aktuel, Error>) -> Void) {
+            webservice.fetch(response: Aktuel.self, with: .getAktuel, completion: completion)
+        }
     }
 }
 enum NetworkError: Error{

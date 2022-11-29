@@ -1,9 +1,7 @@
 //
-//  ModelData.swift
+//  MainViewModel.swift
 //  Aktuel
-//
 //  Created by Turan Çabuk on 29.11.2022.
-//
 
 import Foundation
 
@@ -12,10 +10,10 @@ struct productModel {
     let madein: String?
     let brand: String?
     let id: Int?
-    let price: String?                  //let originalStr: String?
+    let price: String?
     let createdAt: String
     let title: String?
-    let category: String                //let categoryBreadcrumb: String?
+    let category: String
     let imageMini: String
     let imageThumbnail: String?
     let imageOriginal: String?
