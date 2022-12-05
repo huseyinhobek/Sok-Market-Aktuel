@@ -2,7 +2,7 @@
 //  Constant.swift
 //  Aktuel
 //
-//  Created by Turan Çabuk on 28.11.2022.
+//  Created by Hüseyin HÖBEK on 28.11.2022.
 //  https://api.ceptesok.com/api/customlists/95/products?stock=true&page=1
 
 

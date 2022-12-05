@@ -2,7 +2,7 @@
 //  MainModel.swift
 //  Aktuel
 //
-//  Created by Turan Çabuk on 28.11.2022.
+//  Created by Hüseyin HÖBEK on 28.11.2022.
 //
 
 import Foundation
@@ -88,7 +88,7 @@ struct Product: Codable {
     let madein: String?
     let id, serialID: Int?
     let serialTitle: SerialTitle?
-    let price: Price?
+    let price: Price
     let slug: String?
     let vatRatio: String?
     let slogan: String?
@@ -112,7 +112,7 @@ struct Product: Codable {
     let isDiscounted, isStoreRequired, hasMultipleUnits: Bool?
     let productName: String?
     let cargoPrice, oldPrice: Price?
-    let categoryBreadcrumb: String?
+    let category_breadcrumb: String?
     let isInFavorite: Bool?
     let favoriteItemID: Int?
     let isInWishlist: Bool?
@@ -165,7 +165,7 @@ struct Product: Codable {
         case productName
         case cargoPrice
         case oldPrice
-        case categoryBreadcrumb
+        case category_breadcrumb
         case isInFavorite
         case favoriteItemID
         case isInWishlist
