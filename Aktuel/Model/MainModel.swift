@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+
 // MARK: - Aktuel
 struct Aktuel: Codable {
     let meta: Meta?
@@ -20,21 +22,21 @@ struct Aktuel: Codable {
 struct Filters: Codable {
     let order: [String]?
     let brand, minPrice, maxPrice: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case order, brand
-        case minPrice
-        case maxPrice
+        case minPrice = "min_price"
+        case maxPrice = "max_price"
     }
 }
 
 // MARK: - Head
 struct Head: Codable {
     let title, headDescription, image, slug: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case title
-        case headDescription
+        case headDescription = "description"
         case image, slug
     }
 }
@@ -53,10 +55,10 @@ struct Messages: Codable {
 struct Pagination: Codable {
     let schema: String?
     let page, pageCount, limit, total: Int?
-
+    
     enum CodingKeys: String, CodingKey {
         case schema, page
-        case pageCount
+        case pageCount = "page_count"
         case limit, total
     }
 }
@@ -83,12 +85,14 @@ struct Product: Codable {
     let listView: ListView?
     let categoryid: Int?
     let productDescription: String?
-    let addBasketOption, addBasketSize, addBasketStatus: Int?
+    let addBasketOption: Int?
+    let addBasketSize: Double?
+    let addBasketStatus: Int?
     let brand: String?
     let madein: String?
     let id, serialID: Int?
     let serialTitle: SerialTitle?
-    let price: Price
+    let price: Price?
     let slug: String?
     let vatRatio: String?
     let slogan: String?
@@ -108,11 +112,11 @@ struct Product: Codable {
     let installmentDescriptionMobile: String?
     let fixStatus: Int?
     let title: String?
-    let discountRatio: Double?
+    let discountRatio: Int?
     let isDiscounted, isStoreRequired, hasMultipleUnits: Bool?
     let productName: String?
     let cargoPrice, oldPrice: Price?
-    let category_breadcrumb: String?
+    let categoryBreadcrumb: String?
     let isInFavorite: Bool?
     let favoriteItemID: Int?
     let isInWishlist: Bool?
@@ -120,59 +124,59 @@ struct Product: Codable {
     let images: [Image]?
     let imageTypes: ImageTypes?
     let units: Units?
-    let campaign: Campaign?
-
+    //    let campaign: Campaign?
+    
     enum CodingKeys: String, CodingKey {
         case rank
-        case listView
+        case listView = "list_view"
         case categoryid
-        case productDescription
-        case addBasketOption
-        case addBasketSize
-        case addBasketStatus
+        case productDescription = "description"
+        case addBasketOption = "add_basket_option"
+        case addBasketSize = "add_basket_size"
+        case addBasketStatus = "add_basket_status"
         case brand, madein, id
-        case serialID
-        case serialTitle
+        case serialID = "serial_id"
+        case serialTitle = "serial_title"
         case price, slug
-        case vatRatio
+        case vatRatio = "vat_ratio"
         case slogan
-        case basketUpdateDisable
-        case visitCount
-        case giftStatus
-        case productCode
-        case giftPackStatus
+        case basketUpdateDisable = "basket_update_disable"
+        case visitCount = "visit_count"
+        case giftStatus = "gift_status"
+        case productCode = "product_code"
+        case giftPackStatus = "gift_pack_status"
         case exclusive, information
-        case createdAt
-        case orderAddBasketStatus
-        case addBasketDefaultOption
-        case basketIncreaseSize
-        case productGroupIdentity
-        case productSerialIdentity
-        case minBasketAddAmount
-        case maxBasketAddAmount
+        case createdAt = "created_at"
+        case orderAddBasketStatus = "order_add_basket_status"
+        case addBasketDefaultOption = "add_basket_default_option"
+        case basketIncreaseSize = "basket_increase_size"
+        case productGroupIdentity = "product_group_identity"
+        case productSerialIdentity = "product_serial_identity"
+        case minBasketAddAmount = "min_basket_add_amount"
+        case maxBasketAddAmount = "max_basket_add_amount"
         case barcode
-        case kindName
+        case kindName = "kind_name"
         case quantity
-        case cargoDay
-        case installmentStatus
-        case installmentDescriptionMobile
-        case fixStatus
+        case cargoDay = "cargo_day"
+        case installmentStatus = "installment_status"
+        case installmentDescriptionMobile = "installment_description_mobile"
+        case fixStatus = "fix_status"
         case title
-        case discountRatio
-        case isDiscounted
-        case isStoreRequired
-        case hasMultipleUnits
-        case productName
-        case cargoPrice
-        case oldPrice
-        case category_breadcrumb
-        case isInFavorite
-        case favoriteItemID
-        case isInWishlist
-        case basketQuantity
+        case discountRatio = "discount_ratio"
+        case isDiscounted = "is_discounted"
+        case isStoreRequired = "is_store_required"
+        case hasMultipleUnits = "has_multiple_units"
+        case productName = "product_name"
+        case cargoPrice = "cargo_price"
+        case oldPrice = "old_price"
+        case categoryBreadcrumb = "category_breadcrumb"
+        case isInFavorite = "is_in_favorite"
+        case favoriteItemID = "favorite_item_id"
+        case isInWishlist = "is_in_wishlist"
+        case basketQuantity = "basket_quantity"
         case images
-        case imageTypes
-        case units, campaign
+        case imageTypes = "image_types"
+        case units //campaign
     }
 }
 
@@ -181,20 +185,20 @@ struct Campaign: Codable {
     let id: Int?
     let name, campaignDescription, discountAmount, discountPercent: String?
     let typeID: Int?
-    let typeName: TypeName?
+    let typeName: String?
     let relationid: Int?
     let price: Price?
     let conditionText: JSONNull?
-
+    
     enum CodingKeys: String, CodingKey {
         case id, name
-        case campaignDescription
-        case discountAmount
-        case discountPercent
-        case typeID
-        case typeName
+        case campaignDescription = "description"
+        case discountAmount = "discount_amount"
+        case discountPercent = "discount_percent"
+        case typeID = "type_id"
+        case typeName = "type_name"
         case relationid, price
-        case conditionText
+        case conditionText = "condition_text"
     }
 }
 
@@ -208,18 +212,18 @@ struct Price: Codable {
     let currencySymbol: CurrencySymbol?
     let decimalSeperator: DecimalSeperator?
     let thousandsSeparator: ThousandsSeparator?
-
+    
     enum CodingKeys: String, CodingKey {
         case original
-        case originalStr
+        case originalStr = "original_str"
         case whole
-        case wholeStr
+        case wholeStr = "whole_str"
         case fraction
-        case fractionStr
+        case fractionStr = "fraction_str"
         case currency
-        case currencySymbol
-        case decimalSeperator
-        case thousandsSeparator
+        case currencySymbol = "currency_symbol"
+        case decimalSeperator = "decimal_seperator"
+        case thousandsSeparator = "thousands_separator"
     }
 }
 
@@ -239,10 +243,6 @@ enum ThousandsSeparator: String, Codable {
     case empty = "."
 }
 
-enum TypeName: String, Codable {
-    case the25TLÜzeriIndirimli = "25 TL üzeri indirimli"
-}
-
 // MARK: - ImageTypes
 struct ImageTypes: Codable {
     let mini, thumbnail, original: String?
@@ -255,10 +255,10 @@ struct Image: Codable {
     let type: Int?
     let title: JSONNull?
     let order: Int?
-
+    
     enum CodingKeys: String, CodingKey {
         case id, productid
-        case productSerialid
+        case productSerialid = "product_serialid"
         case url, type, title, order
     }
 }
@@ -277,42 +277,43 @@ struct Units: Codable {
     let isInBasket, isDefault: Bool?
     let availableQuantity, basketQuantity: Int?
     let basketPrice: Price?
-
+    
     enum CodingKeys: String, CodingKey {
         case title
-        case isInBasket
-        case isDefault
-        case availableQuantity
-        case basketQuantity
-        case basketPrice
+        case isInBasket = "is_in_basket"
+        case isDefault = "is_default"
+        case availableQuantity = "available_quantity"
+        case basketQuantity = "basket_quantity"
+        case basketPrice = "basket_price"
     }
 }
 
 enum Title: String, Codable {
     case adet = "Adet"
+    case kg = "Kg"
 }
 
 // MARK: - Encode/decode helpers
 
 class JSONNull: Codable, Hashable {
-
+    
     public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
         return true
     }
-
+    
     public var hashValue: Int {
         return 0
     }
-
+    
     public init() {}
-
+    
     public required init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         if !container.decodeNil() {
             throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
         }
     }
-
+    
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encodeNil()
@@ -321,38 +322,38 @@ class JSONNull: Codable, Hashable {
 
 class JSONCodingKey: CodingKey {
     let key: String
-
+    
     required init?(intValue: Int) {
         return nil
     }
-
+    
     required init?(stringValue: String) {
         key = stringValue
     }
-
+    
     var intValue: Int? {
         return nil
     }
-
+    
     var stringValue: String {
         return key
     }
 }
 
 class JSONAny: Codable {
-
+    
     let value: Any
-
+    
     static func decodingError(forCodingPath codingPath: [CodingKey]) -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Cannot decode JSONAny")
         return DecodingError.typeMismatch(JSONAny.self, context)
     }
-
+    
     static func encodingError(forValue value: Any, codingPath: [CodingKey]) -> EncodingError {
         let context = EncodingError.Context(codingPath: codingPath, debugDescription: "Cannot encode JSONAny")
         return EncodingError.invalidValue(value, context)
     }
-
+    
     static func decode(from container: SingleValueDecodingContainer) throws -> Any {
         if let value = try? container.decode(Bool.self) {
             return value
@@ -371,7 +372,7 @@ class JSONAny: Codable {
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
-
+    
     static func decode(from container: inout UnkeyedDecodingContainer) throws -> Any {
         if let value = try? container.decode(Bool.self) {
             return value
@@ -398,7 +399,7 @@ class JSONAny: Codable {
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
-
+    
     static func decode(from container: inout KeyedDecodingContainer<JSONCodingKey>, forKey key: JSONCodingKey) throws -> Any {
         if let value = try? container.decode(Bool.self, forKey: key) {
             return value
@@ -425,7 +426,7 @@ class JSONAny: Codable {
         }
         throw decodingError(forCodingPath: container.codingPath)
     }
-
+    
     static func decodeArray(from container: inout UnkeyedDecodingContainer) throws -> [Any] {
         var arr: [Any] = []
         while !container.isAtEnd {
@@ -434,7 +435,7 @@ class JSONAny: Codable {
         }
         return arr
     }
-
+    
     static func decodeDictionary(from container: inout KeyedDecodingContainer<JSONCodingKey>) throws -> [String: Any] {
         var dict = [String: Any]()
         for key in container.allKeys {
@@ -443,7 +444,7 @@ class JSONAny: Codable {
         }
         return dict
     }
-
+    
     static func encode(to container: inout UnkeyedEncodingContainer, array: [Any]) throws {
         for value in array {
             if let value = value as? Bool {
@@ -467,7 +468,7 @@ class JSONAny: Codable {
             }
         }
     }
-
+    
     static func encode(to container: inout KeyedEncodingContainer<JSONCodingKey>, dictionary: [String: Any]) throws {
         for (key, value) in dictionary {
             let key = JSONCodingKey(stringValue: key)!
@@ -492,7 +493,7 @@ class JSONAny: Codable {
             }
         }
     }
-
+    
     static func encode(to container: inout SingleValueEncodingContainer, value: Any) throws {
         if let value = value as? Bool {
             try container.encode(value)
@@ -508,7 +509,7 @@ class JSONAny: Codable {
             throw encodingError(forValue: value, codingPath: container.codingPath)
         }
     }
-
+    
     public required init(from decoder: Decoder) throws {
         if var arrayContainer = try? decoder.unkeyedContainer() {
             self.value = try JSONAny.decodeArray(from: &arrayContainer)
@@ -519,7 +520,7 @@ class JSONAny: Codable {
             self.value = try JSONAny.decode(from: container)
         }
     }
-
+    
     public func encode(to encoder: Encoder) throws {
         if let arr = self.value as? [Any] {
             var container = encoder.unkeyedContainer()

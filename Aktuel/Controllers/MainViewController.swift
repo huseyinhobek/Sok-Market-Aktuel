@@ -6,85 +6,107 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    
+    @IBOutlet weak var categoryCollectionView: UICollectionView!
     
     var viewModel: MainViewModel?
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Aktüel Ürünler"
-        
+        categoryCollectionView?.delegate = self
+        categoryCollectionView?.dataSource = self
         collectionView?.delegate = self
         collectionView?.dataSource = self
         collectionView?.collectionViewLayout = UICollectionViewFlowLayout()
+        categoryCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         viewModel = MainViewModel()
-        guard let viewModel = viewModel else {return}
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        categoryCollectionView.collectionViewLayout = layout
+        
+        guard let viewModel = viewModel else { return }
         viewModel.getProducts(completion: {result in
             DispatchQueue.main.async {
                 self.collectionView?.reloadData()
+                self.categoryCollectionView?.reloadData()
+                
             }
         })
         
     }
     
-}
-
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.productList.count ?? 5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MarketCollectionViewCell", for: indexPath) as! MarketCollectionViewCell
-        let article = viewModel?.productList[indexPath.row]
-        cell.configCCells(model: article!)
-        return cell
         
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.productList[indexPath.row]
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let dest = segue.destination as? DetailsViewController, let index = collectionView.indexPathsForSelectedItems?.first {
-            dest.selectedItem = viewModel?.productList[index.row]
+        if collectionView == categoryCollectionView {
+            categoryCollectionView.backgroundColor = .orange
+            
+            return viewModel?.self.categories.count ?? 10
+        } else {
+            
+            return viewModel?.productList.count ?? 5
+            
         }
         
-            
     }
     
+    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if (collectionView == categoryCollectionView) {
+            
+            let cell2 = categoryCollectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoriesCollectionViewCell
+            let items = (viewModel?.categories[indexPath.row])!
+            cell2.configCategoriCells(model: items)
+            return cell2
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MarketCollectionViewCell", for: indexPath) as! MarketCollectionViewCell
+            let article = viewModel?.productList[indexPath.row]
+            cell.configCCells(model: article!)
+            return cell
+            
+        }
+    }
     
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return viewModel?.productList.count ?? 5
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell: ProductListCellViewController = (tableView.dequeueReusableCell(withIdentifier: "Cell") as? ProductListCellViewController)!
-//        let article = viewModel?.productList[indexPath.row]
-//        cell.configCells(model: article!)
-//        return cell
-//    }
-}
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == categoryCollectionView {
+            let selectedCategory = viewModel?.categories[indexPath.row]
+            // Burada, selectedCategory değişkenine göre CategoryViewController sayfasına geçiş yapabilirsiniz.
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+            vc.selectedCategory = selectedCategory
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let chosenItem = viewModel?.productList[indexPath.row]
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "detailsVC") as! DetailsViewController
+            vc.viewModel = ProductDetailViewModel(selectedProduct: chosenItem!)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
 
+    
+}
 
 extension MainViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 200)
+        
+        if collectionView == categoryCollectionView {
+            
+            return CGSize(width: 150, height: 140)
+        } else {
+            return CGSize(width: 180, height: 200)
+        }
     }
     
-    
 }
+
+
+
 
 
 
