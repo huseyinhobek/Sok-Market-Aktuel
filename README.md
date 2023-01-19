@@ -1,3 +1,7 @@
+* Data may not be loaded when you run the application because the data from JSON varies.
+
+* JSON'dan gelen verilerin değişiklik göstermesinden dolayı uygulamayı çalıştırdığınızda veriler yüklenmeyebilir.
+
 My project, which I have done as a shopping application, has been designed with MVVM architecture.
 Adding to cart with CoreData, confirmation screen, warning message appears when you add the product in the cart again.
 In my design prepared with CollectionView, when the Category tabs are clicked, explanatory information is displayed by going to the relevant category products, and by going to the detail of the product clicked from the Product list.
